@@ -58,6 +58,41 @@ class TodoTableViewController: UITableViewController{
         self.tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt
+           indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+           //创建“更多”事件按钮
+           let unread = UIContextualAction(style: .normal, title: "topping") {
+               (action, view, completionHandler) in
+               completionHandler(true)
+           }
+           unread.backgroundColor = UIColor(red: 52/255, green: 120/255, blue: 246/255,
+                                            alpha: 1)
+            
+           //返回所有的事件按钮
+           let configuration = UISwipeActionsConfiguration(actions: [unread])
+           return configuration
+       }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt
+            indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+            let more = UIContextualAction(style: .normal, title: "edit") {
+                (action, view, completionHandler) in
+                completionHandler(true)
+            }
+            more.backgroundColor = .lightGray
+        
+            let delete = UIContextualAction(style: .destructive, title: "delete") {
+                (action, view, completionHandler) in
+                self.items.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                completionHandler(true)
+            }
+             
+            //返回所有的事件按钮
+            let configuration = UISwipeActionsConfiguration(actions: [delete, more])
+            return configuration
+        }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
